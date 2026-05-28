@@ -18,6 +18,14 @@ The database and `Users` table are created automatically on application startup 
 dotnet run --project Baxture.Api
 ```
 
+Swagger UI:
+
+```text
+http://localhost:5077/swagger
+```
+
+In Swagger, call `POST /api/auth/login`, copy the returned `token`, click `Authorize`, and paste the token value.
+
 Seeded credentials:
 
 - Admin: `admin` / `admin123`
