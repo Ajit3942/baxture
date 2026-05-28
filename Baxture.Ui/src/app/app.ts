@@ -10,6 +10,10 @@ interface UserRecord {
   isAdmin: boolean;
   age: number;
   hobbies: string[];
+  createdBy: string;
+  createdDate: string;
+  updatedBy?: string | null;
+  updatedDate?: string | null;
 }
 
 interface LoginResponse {
@@ -282,6 +286,15 @@ export class App {
       .split(',')
       .map((hobby) => hobby.trim())
       .filter(Boolean);
+  }
+
+  protected formatDate(value?: string | null): string {
+    if (!value) {
+      return '-';
+    }
+
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
   }
 
   private authHeaders(): HttpHeaders {

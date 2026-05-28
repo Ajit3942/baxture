@@ -69,6 +69,10 @@
                 <option value="age">Age</option>
                 <option value="isAdmin">Is admin</option>
                 <option value="hobbies">Hobbies</option>
+                <option value="createdBy">Created by</option>
+                <option value="createdDate">Created date</option>
+                <option value="updatedBy">Updated by</option>
+                <option value="updatedDate">Updated date</option>
                 <option value="id">Id</option>
               </select>
             </label>
@@ -82,6 +86,10 @@
                 <option value="username">Username</option>
                 <option value="age">Age</option>
                 <option value="isAdmin">Is admin</option>
+                <option value="createdBy">Created by</option>
+                <option value="createdDate">Created date</option>
+                <option value="updatedBy">Updated by</option>
+                <option value="updatedDate">Updated date</option>
                 <option value="id">Id</option>
               </select>
             </label>
@@ -132,6 +140,10 @@
                 <th>Age</th>
                 <th>Role</th>
                 <th>Hobbies</th>
+                <th>Created by</th>
+                <th>Created date</th>
+                <th>Updated by</th>
+                <th>Updated date</th>
                 <th>Id</th>
                 <th class="right">Actions</th>
               </tr>
@@ -145,6 +157,10 @@
                     <span class="badge" [class.admin]="user.isAdmin">{{ user.isAdmin ? 'Admin' : 'User' }}</span>
                   </td>
                   <td>{{ user.hobbies.join(', ') || 'None' }}</td>
+                  <td>{{ user.createdBy }}</td>
+                  <td>{{ formatDate(user.createdDate) }}</td>
+                  <td>{{ user.updatedBy || '-' }}</td>
+                  <td>{{ formatDate(user.updatedDate) }}</td>
                   <td class="mono">{{ user.id }}</td>
                   <td class="right">
                     <button type="button" class="icon-button" title="Edit user" (click)="editUser(user)">Edit</button>
@@ -153,7 +169,7 @@
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="6" class="empty">No users found.</td>
+                  <td colspan="10" class="empty">No users found.</td>
                 </tr>
               }
             </tbody>
