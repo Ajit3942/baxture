@@ -1,6 +1,16 @@
 # Baxture Users API
 
-ASP.NET Core Web API for user management with JWT authentication, admin-only endpoints, search, and export.
+ASP.NET Core Web API for user management with JWT authentication, SQL Server persistence, admin-only endpoints, search, and export.
+
+## Database
+
+The API uses Entity Framework Core with SQL Server:
+
+```text
+Server=AJIT\SQLEXPRESS;Database=BaxtureUsersDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true
+```
+
+The database and `Users` table are created automatically on application startup with `EnsureCreatedAsync`. If the table is empty, the app seeds one admin user and one normal user.
 
 ## Run
 
