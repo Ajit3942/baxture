@@ -42,7 +42,8 @@ public sealed class UsersController(IUserService userService, IUserExportService
             return BadRequest(new { message = "Request body is invalid.", errors = validation });
         }
 
-        var created = await userService.CreateAsync(request, cancellationToken);
+        var currentUser = HttpContext.GetCurrentUser()!;
+        var created = await userService.CreateAsync(request, currentUser.Username, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { userId = created.Id }, UserResponse.FromUser(created));
     }
 
@@ -69,7 +70,7 @@ public sealed class UsersController(IUserService userService, IUserExportService
             return BadRequest(new { message = "Request body is invalid.", errors = validation });
         }
 
-        var updated = await userService.UpdateAsync(userId, request, cancellationToken);
+        var updated = await userService.UpdateAsync(userId, request, currentUser.Username, cancellationToken);
         return updated is null
             ? NotFound(new { message = $"User with id '{userId}' was not found." })
             : Ok(UserResponse.FromUser(updated));

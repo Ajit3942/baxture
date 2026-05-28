@@ -30,6 +30,10 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
             entity.Property(user => user.Password).IsRequired().HasMaxLength(100);
             entity.Property(user => user.Age).IsRequired();
             entity.Property(user => user.IsAdmin).HasDefaultValue(false);
+            entity.Property(user => user.CreatedBy).IsRequired().HasMaxLength(100);
+            entity.Property(user => user.CreatedDate).IsRequired();
+            entity.Property(user => user.UpdatedBy).HasMaxLength(100);
+            entity.Property(user => user.UpdatedDate);
             entity.Property(user => user.Hobbies)
                 .HasConversion(hobbiesConverter)
                 .Metadata.SetValueComparer(hobbiesComparer);

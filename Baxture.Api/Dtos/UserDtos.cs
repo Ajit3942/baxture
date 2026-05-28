@@ -23,10 +23,23 @@ public sealed record UserResponse(
     string Username,
     bool IsAdmin,
     int Age,
-    IReadOnlyCollection<string> Hobbies)
+    IReadOnlyCollection<string> Hobbies,
+    string CreatedBy,
+    DateTime CreatedDate,
+    string? UpdatedBy,
+    DateTime? UpdatedDate)
 {
     public static UserResponse FromUser(User user) =>
-        new(user.Id, user.Username, user.IsAdmin, user.Age, user.Hobbies);
+        new(
+            user.Id,
+            user.Username,
+            user.IsAdmin,
+            user.Age,
+            user.Hobbies,
+            user.CreatedBy,
+            user.CreatedDate,
+            user.UpdatedBy,
+            user.UpdatedDate);
 }
 
 public sealed record UserFilter(string FieldName, string FieldValue);

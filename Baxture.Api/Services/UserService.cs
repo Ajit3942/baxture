@@ -15,8 +15,9 @@ public sealed class UserService(IUserRepository repository) : IUserService
     public Task<User?> GetByIdAsync(string id, CancellationToken cancellationToken) =>
         repository.GetByIdAsync(id, cancellationToken);
 
-    public Task<User> CreateAsync(CreateUserRequest request, CancellationToken cancellationToken)
+    public Task<User> CreateAsync(CreateUserRequest request, string createdBy, CancellationToken cancellationToken)
     {
+        var now = DateTime.UtcNow;
         var user = new User
         {
             Id = Guid.NewGuid().ToString(),
@@ -24,13 +25,15 @@ public sealed class UserService(IUserRepository repository) : IUserService
             Password = request.Password!,
             IsAdmin = request.IsAdmin ?? false,
             Age = request.Age!.Value,
-            Hobbies = request.Hobbies!
+            Hobbies = request.Hobbies!,
+            CreatedBy = createdBy,
+            CreatedDate = now
         };
 
         return repository.CreateAsync(user, cancellationToken);
     }
 
-    public Task<User?> UpdateAsync(string id, UpdateUserRequest request, CancellationToken cancellationToken) =>
+    public Task<User?> UpdateAsync(string id, UpdateUserRequest request, string updatedBy, CancellationToken cancellationToken) =>
         repository.UpdateAsync(id, user =>
         {
             if (request.Username is not null)
@@ -57,6 +60,9 @@ public sealed class UserService(IUserRepository repository) : IUserService
             {
                 user.Hobbies = request.Hobbies;
             }
+
+            user.UpdatedBy = updatedBy;
+            user.UpdatedDate = DateTime.UtcNow;
         }, cancellationToken);
 
     public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken) =>
@@ -93,6 +99,10 @@ public sealed class UserService(IUserRepository repository) : IUserService
             "isadmin" when bool.TryParse(value, out var parsed) => users.Where(user => user.IsAdmin == parsed),
             "age" when int.TryParse(value, out var parsed) => users.Where(user => user.Age == parsed),
             "hobbies" => users.Where(user => user.Hobbies.Any(hobby => hobby.Contains(value, StringComparison.OrdinalIgnoreCase))),
+            "createdby" => users.Where(user => user.CreatedBy.Contains(value, StringComparison.OrdinalIgnoreCase)),
+            "createddate" when DateTime.TryParse(value, out var parsed) => users.Where(user => user.CreatedDate.Date == parsed.Date),
+            "updatedby" => users.Where(user => user.UpdatedBy != null && user.UpdatedBy.Contains(value, StringComparison.OrdinalIgnoreCase)),
+            "updateddate" when DateTime.TryParse(value, out var parsed) => users.Where(user => user.UpdatedDate.HasValue && user.UpdatedDate.Value.Date == parsed.Date),
             _ => users
         };
     }
@@ -105,6 +115,10 @@ public sealed class UserService(IUserRepository repository) : IUserService
             "id" => descending ? users.OrderByDescending(user => user.Id) : users.OrderBy(user => user.Id),
             "age" => descending ? users.OrderByDescending(user => user.Age) : users.OrderBy(user => user.Age),
             "isadmin" => descending ? users.OrderByDescending(user => user.IsAdmin) : users.OrderBy(user => user.IsAdmin),
+            "createdby" => descending ? users.OrderByDescending(user => user.CreatedBy) : users.OrderBy(user => user.CreatedBy),
+            "createddate" => descending ? users.OrderByDescending(user => user.CreatedDate) : users.OrderBy(user => user.CreatedDate),
+            "updatedby" => descending ? users.OrderByDescending(user => user.UpdatedBy) : users.OrderBy(user => user.UpdatedBy),
+            "updateddate" => descending ? users.OrderByDescending(user => user.UpdatedDate) : users.OrderBy(user => user.UpdatedDate),
             _ => descending ? users.OrderByDescending(user => user.Username) : users.OrderBy(user => user.Username)
         };
     }

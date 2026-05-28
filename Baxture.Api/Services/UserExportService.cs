@@ -18,7 +18,7 @@ public sealed class UserExportService : IUserExportService
     {
         var builder = new StringBuilder();
         builder.AppendLine($"Current Date,{DateTime.UtcNow:yyyy-MM-dd}");
-        builder.AppendLine("Id,Username,IsAdmin,Age,Hobbies");
+        builder.AppendLine("Id,Username,IsAdmin,Age,Hobbies,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate");
         foreach (var user in users)
         {
             builder.AppendLine(string.Join(',', [
@@ -26,7 +26,11 @@ public sealed class UserExportService : IUserExportService
                 EscapeCsv(user.Username),
                 user.IsAdmin.ToString(CultureInfo.InvariantCulture),
                 user.Age.ToString(CultureInfo.InvariantCulture),
-                EscapeCsv(string.Join('|', user.Hobbies))
+                EscapeCsv(string.Join('|', user.Hobbies)),
+                EscapeCsv(user.CreatedBy),
+                user.CreatedDate.ToString("O", CultureInfo.InvariantCulture),
+                EscapeCsv(user.UpdatedBy ?? string.Empty),
+                user.UpdatedDate?.ToString("O", CultureInfo.InvariantCulture) ?? string.Empty
             ]));
         }
 
@@ -38,7 +42,7 @@ public sealed class UserExportService : IUserExportService
     {
         var lines = new List<string> { $"Current Date: {DateTime.UtcNow:yyyy-MM-dd}", "" };
         lines.AddRange(users.Select(user =>
-            $"{user.Id} | {user.Username} | Admin: {user.IsAdmin} | Age: {user.Age} | Hobbies: {string.Join(", ", user.Hobbies)}"));
+            $"{user.Id} | {user.Username} | Admin: {user.IsAdmin} | Age: {user.Age} | Hobbies: {string.Join(", ", user.Hobbies)} | Created: {user.CreatedBy} {user.CreatedDate:O} | Updated: {user.UpdatedBy ?? string.Empty} {user.UpdatedDate?.ToString("O", CultureInfo.InvariantCulture) ?? string.Empty}"));
         lines.Add("");
         lines.Add("Page 1");
 

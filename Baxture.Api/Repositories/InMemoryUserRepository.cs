@@ -9,6 +9,7 @@ public sealed class InMemoryUserRepository : IUserRepository
 
     public InMemoryUserRepository()
     {
+        var seedDate = DateTime.UtcNow;
         Seed(new User
         {
             Id = Guid.NewGuid().ToString(),
@@ -16,7 +17,9 @@ public sealed class InMemoryUserRepository : IUserRepository
             Password = "admin123",
             IsAdmin = true,
             Age = 35,
-            Hobbies = ["architecture", "running"]
+            Hobbies = ["architecture", "running"],
+            CreatedBy = "system",
+            CreatedDate = seedDate
         });
 
         Seed(new User
@@ -26,7 +29,9 @@ public sealed class InMemoryUserRepository : IUserRepository
             Password = "user123",
             IsAdmin = false,
             Age = 28,
-            Hobbies = ["reading"]
+            Hobbies = ["reading"],
+            CreatedBy = "system",
+            CreatedDate = seedDate
         });
     }
 
@@ -77,6 +82,10 @@ public sealed class InMemoryUserRepository : IUserRepository
             Password = user.Password,
             IsAdmin = user.IsAdmin,
             Age = user.Age,
-            Hobbies = [.. user.Hobbies]
+            Hobbies = [.. user.Hobbies],
+            CreatedBy = user.CreatedBy,
+            CreatedDate = user.CreatedDate,
+            UpdatedBy = user.UpdatedBy,
+            UpdatedDate = user.UpdatedDate
         };
 }
