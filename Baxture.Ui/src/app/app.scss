@@ -1,0 +1,306 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  color: #17202a;
+  background: #f6f7f9;
+}
+
+.shell {
+  min-height: 100dvh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #d8dee6;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: #5d6b7a;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.session {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #435161;
+  font-weight: 600;
+}
+
+.login-panel {
+  display: grid;
+  place-items: center;
+  min-height: calc(100dvh - 92px);
+  padding: 24px;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #d8dee6;
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(25, 33, 43, 0.08);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #d8dee6;
+  border-radius: 8px;
+}
+
+.form-panel {
+  align-self: start;
+  padding: 20px;
+}
+
+.search-panel {
+  padding: 16px;
+}
+
+form {
+  display: grid;
+  gap: 14px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: #435161;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input,
+select {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 8px 10px;
+  color: #17202a;
+  background: #ffffff;
+  border: 1px solid #c4ccd6;
+  border-radius: 6px;
+  font: inherit;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #2f80ed;
+  outline-offset: 1px;
+  border-color: #2f80ed;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-row input {
+  width: 18px;
+  min-height: 18px;
+}
+
+button {
+  min-height: 40px;
+  padding: 0 14px;
+  color: #ffffff;
+  background: #1f6feb;
+  border: 1px solid #1f6feb;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.secondary,
+.ghost {
+  color: #243140;
+  background: #ffffff;
+  border-color: #c4ccd6;
+}
+
+.ghost {
+  min-height: 34px;
+}
+
+.button-row,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-grid {
+  grid-template-columns: repeat(6, minmax(90px, 1fr)) auto;
+  align-items: end;
+}
+
+.actions {
+  align-items: end;
+}
+
+.status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 14px 0;
+  color: #5d6b7a;
+  font-weight: 700;
+}
+
+.notice {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.success {
+  color: #0f5132;
+  background: #d1e7dd;
+}
+
+.error {
+  color: #842029;
+  background: #f8d7da;
+}
+
+.table-wrap {
+  overflow: auto;
+  background: #ffffff;
+  border: 1px solid #d8dee6;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e7ebf0;
+  vertical-align: top;
+}
+
+th {
+  color: #435161;
+  background: #f0f3f7;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.right {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.mono {
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 12px;
+  color: #5d6b7a;
+}
+
+.badge {
+  display: inline-flex;
+  min-width: 56px;
+  justify-content: center;
+  padding: 4px 8px;
+  color: #344054;
+  background: #eef2f6;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.badge.admin {
+  color: #7a3b00;
+  background: #fff0d2;
+}
+
+.icon-button {
+  min-height: 32px;
+  margin-left: 8px;
+  padding: 0 10px;
+  color: #243140;
+  background: #ffffff;
+  border-color: #c4ccd6;
+}
+
+.danger {
+  color: #b42318;
+}
+
+.empty {
+  color: #5d6b7a;
+  text-align: center;
+}
+
+@media (max-width: 1050px) {
+  .workspace,
+  .search-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .workspace {
+    padding: 14px;
+  }
+
+  .button-row,
+  .actions,
+  .session {
+    width: 100%;
+  }
+
+  button {
+    flex: 1 1 120px;
+  }
+}

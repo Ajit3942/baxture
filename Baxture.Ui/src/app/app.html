@@ -1,0 +1,165 @@
+<main class="shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Baxture</p>
+      <h1>Users Console</h1>
+    </div>
+    <div class="session">
+      @if (isLoggedIn()) {
+        <span>{{ currentUser()?.username || 'Authenticated' }}</span>
+        <button type="button" class="ghost" (click)="logout()">Sign out</button>
+      }
+    </div>
+  </header>
+
+  @if (!isLoggedIn()) {
+    <section class="login-panel">
+      <form class="login-card" (ngSubmit)="login()">
+        <h2>Sign in</h2>
+        <label>
+          Username
+          <input name="loginUsername" [(ngModel)]="loginForm.username" autocomplete="username" required />
+        </label>
+        <label>
+          Password
+          <input name="loginPassword" [(ngModel)]="loginForm.password" type="password" autocomplete="current-password" required />
+        </label>
+        <button type="submit" [disabled]="loading()">Sign in</button>
+      </form>
+    </section>
+  } @else {
+    <section class="workspace">
+      <aside class="panel form-panel">
+        <h2>{{ isEditing() ? 'Update user' : 'Create user' }}</h2>
+        <form (ngSubmit)="saveUser()">
+          <label>
+            Username
+            <input name="username" [(ngModel)]="userForm.username" required />
+          </label>
+          <label>
+            Password
+            <input name="password" [(ngModel)]="userForm.password" type="password" [required]="!isEditing()" />
+          </label>
+          <label>
+            Age
+            <input name="age" [(ngModel)]="userForm.age" type="number" min="0" required />
+          </label>
+          <label>
+            Hobbies
+            <input name="hobbies" [(ngModel)]="userForm.hobbiesText" placeholder="music, cycling" />
+          </label>
+          <label class="check-row">
+            <input name="isAdmin" [(ngModel)]="userForm.isAdmin" type="checkbox" />
+            Admin user
+          </label>
+          <div class="button-row">
+            <button type="submit" [disabled]="loading()">{{ isEditing() ? 'Update' : 'Create' }}</button>
+            <button type="button" class="secondary" (click)="resetForm()">Clear</button>
+          </div>
+        </form>
+      </aside>
+
+      <section class="content">
+        <div class="panel search-panel">
+          <form class="search-grid" (ngSubmit)="searchUsers()">
+            <label>
+              Field
+              <select name="fieldName" [(ngModel)]="searchForm.fieldName">
+                <option value="username">Username</option>
+                <option value="age">Age</option>
+                <option value="isAdmin">Is admin</option>
+                <option value="hobbies">Hobbies</option>
+                <option value="id">Id</option>
+              </select>
+            </label>
+            <label>
+              Value
+              <input name="fieldValue" [(ngModel)]="searchForm.fieldValue" />
+            </label>
+            <label>
+              Sort
+              <select name="sortBy" [(ngModel)]="searchForm.sortBy">
+                <option value="username">Username</option>
+                <option value="age">Age</option>
+                <option value="isAdmin">Is admin</option>
+                <option value="id">Id</option>
+              </select>
+            </label>
+            <label>
+              Direction
+              <select name="sortDirection" [(ngModel)]="searchForm.sortDirection">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </label>
+            <label>
+              Page
+              <input name="pageNumber" [(ngModel)]="searchForm.pageNumber" type="number" min="1" />
+            </label>
+            <label>
+              Size
+              <input name="pageSize" [(ngModel)]="searchForm.pageSize" type="number" min="1" max="100" />
+            </label>
+            <div class="actions">
+              <button type="submit" [disabled]="loading()">Search</button>
+              <button type="button" class="secondary" (click)="loadUsers()">All</button>
+              <button type="button" class="secondary" (click)="exportUsers('PDF')">PDF</button>
+              <button type="button" class="secondary" (click)="exportUsers('EXCEL')">Excel</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="status-row">
+          <span>{{ totalCount() }} users</span>
+          <span>{{ totalPages() }} pages</span>
+          @if (loading()) {
+            <span>Working...</span>
+          }
+        </div>
+
+        @if (message()) {
+          <p class="notice success">{{ message() }}</p>
+        }
+        @if (error()) {
+          <p class="notice error">{{ error() }}</p>
+        }
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Age</th>
+                <th>Role</th>
+                <th>Hobbies</th>
+                <th>Id</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users(); track user.id) {
+                <tr>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.age }}</td>
+                  <td>
+                    <span class="badge" [class.admin]="user.isAdmin">{{ user.isAdmin ? 'Admin' : 'User' }}</span>
+                  </td>
+                  <td>{{ user.hobbies.join(', ') || 'None' }}</td>
+                  <td class="mono">{{ user.id }}</td>
+                  <td class="right">
+                    <button type="button" class="icon-button" title="Edit user" (click)="editUser(user)">Edit</button>
+                    <button type="button" class="icon-button danger" title="Delete user" (click)="deleteUser(user)">Delete</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="6" class="empty">No users found.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  }
+</main>

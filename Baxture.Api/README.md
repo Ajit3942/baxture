@@ -30,6 +30,8 @@ If the local HTTPS development certificate is not trusted yet, run:
 dotnet dev-certs https --trust
 ```
 
+The API allows CORS from the Angular development server at `http://localhost:4200` and `https://localhost:4200`.
+
 In Swagger, call `POST /api/auth/login`, copy the returned `token`, click `Authorize`, and paste the token value.
 
 Seeded credentials:
