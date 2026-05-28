@@ -21,7 +21,13 @@ dotnet run --project Baxture.Api
 Swagger UI:
 
 ```text
-http://localhost:5077/swagger
+https://localhost:7077/swagger
+```
+
+If the local HTTPS development certificate is not trusted yet, run:
+
+```powershell
+dotnet dev-certs https --trust
 ```
 
 In Swagger, call `POST /api/auth/login`, copy the returned `token`, click `Authorize`, and paste the token value.

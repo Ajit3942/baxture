@@ -41,6 +41,7 @@ await app.Services.InitializeDatabaseAsync();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<JwtAuthenticationMiddleware>();
 
